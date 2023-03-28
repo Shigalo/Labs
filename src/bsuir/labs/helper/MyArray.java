@@ -15,7 +15,6 @@ public class MyArray {
     //lab 2
     public Mutex mutex = new Mutex();
 
-    //lab 3
     public MyArray(int[] array) {
         this.array = array;
     }

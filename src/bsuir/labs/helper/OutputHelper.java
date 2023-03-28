@@ -11,7 +11,7 @@ public class OutputHelper {
     public static String DoubleOutput(double i) {
         String result = "" + i;
         if(i % 1 == 0)
-            result = "" + (int)i;
+            return IntOutput((int)i);
         if(i<0)
             return "(" + result + ")";
         return result;

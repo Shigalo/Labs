@@ -1,8 +1,7 @@
 package bsuir.labs.lab1;
 
-import bsuir.labs.helper.InputValidator;
 import bsuir.labs.helper.MyArray;
-import bsuir.labs.helper.MyThread;
+import bsuir.labs.helper.ArrayThread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,7 +46,7 @@ public class Init {
             //!!Вывод промежуточного результата может быть !непоследовательным!
             //!!в связи с одновременным обращением нескольких потоков
 //            Thread.sleep(10);//задержка
-            es.execute(new MyThread("Thread" + i, myArray, i + 1, WITHOUT_OPTIONS));
+            es.execute(new ArrayThread("Thread" + i, myArray, i + 1, WITHOUT_OPTIONS));
         }
 
         /** Инициализация 4 потоков и их выполнине (методы start() -> run())

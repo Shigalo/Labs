@@ -2,7 +2,7 @@ package bsuir.labs.helper;
 
 import java.util.concurrent.Semaphore;
 
-public class MyThread implements Runnable {
+public class ArrayThread implements Runnable {
 
 
     private Thread thred;
@@ -12,14 +12,14 @@ public class MyThread implements Runnable {
     private Options option;
     private Semaphore semaphore;
 
-    public MyThread(String name, MyArray array, int delay, Options option) {
+    public ArrayThread(String name, MyArray array, int delay, Options option) {
         threadName = name;
         mainArray = array;
         this.delay = delay;
         this.option = option;
     }
 
-    public MyThread(String name, MyArray array, int delay, Semaphore semaphore) {
+    public ArrayThread(String name, MyArray array, int delay, Semaphore semaphore) {
         threadName = name;
         mainArray = array;
         this.delay = delay;
@@ -33,21 +33,18 @@ public class MyThread implements Runnable {
 
         try {
             while (mainArray.HasNext()) {
-//          while (true) {//будет исключение ArrayIndexOutOfBoundsException
-
-
                 switch (option) {
                     case WITHOUT_OPTIONS:
-                        ExecuteWithoutOptions();//Lab1
+                        ExecuteWithoutOptions();//Lab1 && Lab5 - фьючерсы
                         break;
                     case MUTEX_OPTIONS:
                         ExecuteWithMutex();//Lab2 - Мьютексы
                         break;
                     case SEMAPHORE_OPTION:
-                        ExecuteWithSemaphore();
+                        ExecuteWithSemaphore();//Lab3 - Семафоры
                         break;
                     case ATOMIC_OPTION:
-                        ExecuteWithAtomic();
+                        ExecuteWithAtomic();//Lab4 - Атомарные
                         break;
                 }
             }
@@ -90,8 +87,8 @@ public class MyThread implements Runnable {
                 mainArray.mutex.unlock();
                 return; }*/
 
-            //Причина возникновения исключения: Проверка mainArray.HasNext()
-            //выполняется до блокировки mainArray.mutex.lock() в run()
+            //Причина возникновения исключения: Проверка mainArray.HasNext() в run()
+            //выполняется до блокировки mainArray.mutex.lock()
             ExecuteWithoutOptions();
 
             mainArray.mutex.unlock(); //Разблокировка доступа к объекту для других потоков
@@ -107,9 +104,9 @@ public class MyThread implements Runnable {
             System.out.println(threadName + ": Пытается получить доступ. "/* +
                     "Свободно = " + semaphore.availablePermits() +
                     "Потоков в очереди = " + semaphore.getQueueLength()*/);
-            if(!semaphore.tryAcquire()) {
+            if(!semaphore.tryAcquire()) {//Проверка доступа и его получение если возможно
                 System.out.println(threadName + ": Доступ запрещён. Поток ожидает");
-                semaphore.acquire();
+                semaphore.acquire();//Ожидание доступа
             }
             System.out.println(threadName + ": Доступ получен");
 
